@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Result</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", sans-serif;
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+            color: #111827;
+        }
+
+        .wrap {
+            max-width: 720px;
+            margin: 40px auto;
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(17, 24, 39, 0.12);
+            padding: 28px;
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        .time {
+            margin-top: 16px;
+            padding: 12px;
+            border-radius: 10px;
+            background: #eef2ff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <h1>Order Process Result</h1>
+    <p>/stock -&gt; /payment -&gt; /delivery 순차 실행 결과</p>
+
+    <ul>
+        <li th:each="result : ${results}" th:text="${result}">result</li>
+    </ul>
+
+    <div class="time">
+        처리 시간: <span th:text="${elapsedMs}">0</span> ms
+    </div>
+</div>
+</body>
+</html>
