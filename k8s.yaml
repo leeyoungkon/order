@@ -25,6 +25,8 @@ spec:
               value: http://payment-service
             - name: DELIVERY_SERVICE_URL
               value: http://delivery-service
+            - name: BOOK_SERVICE_URL
+              value: http://resttemplateserver:8080
 ---
 apiVersion: v1
 kind: Service

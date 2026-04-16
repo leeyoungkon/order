@@ -43,9 +43,22 @@
     <h1>Order Process Result</h1>
     <p>/stock -&gt; /payment -&gt; /delivery 순차 실행 결과</p>
 
-    <ul>
+    <ul th:if="${results != null}">
         <li th:each="result : ${results}" th:text="${result}">result</li>
     </ul>
+
+    <div th:if="${books != null}">
+        <h2>Books</h2>
+        <ul>
+            <li th:each="book : ${books}">
+                <strong th:text="${book.name}">name</strong>
+                <span th:if="${book.author != null and !#strings.isEmpty(book.author)}"
+                      th:text="| - ${book.author}|"> - author</span>
+                <span th:text="| - ${book.price}원|"> - 0원</span>
+                <span th:text="| (#${book.id})|"> (#0)</span>
+            </li>
+        </ul>
+    </div>
 
     <div class="time">
         처리 시간: <span th:text="${elapsedMs}">0</span> ms
