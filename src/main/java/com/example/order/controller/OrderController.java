@@ -103,7 +103,7 @@ public String flux(Model model) {
             callStep(new StepRequest(paymentServiceUrl, "/payment")),
             callStep(new StepRequest(deliveryServiceUrl, "/delivery"))
     ).map(tuple -> List.of(tuple.getT1(), tuple.getT2(), tuple.getT3()))
-     .block();
+     .block(); 
 
     long elapsedMs = (System.nanoTime() - start) / 1_000_000;
 
