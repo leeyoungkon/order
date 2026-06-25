@@ -24,7 +24,6 @@ public class OrderController {
     private final String stockServiceUrl;
     private final String paymentServiceUrl;
     private final String deliveryServiceUrl;
-    private final String bookServiceUrl;
 
     public OrderController(
             StockClient stockClient,
@@ -33,8 +32,7 @@ public class OrderController {
             WebClient.Builder webClientBuilder,
             @Value("${services.stock.url}") String stockServiceUrl,
             @Value("${services.payment.url}") String paymentServiceUrl,
-            @Value("${services.delivery.url}") String deliveryServiceUrl,
-            @Value("${services.book.url}") String bookServiceUrl) {
+            @Value("${services.delivery.url}") String deliveryServiceUrl) {
         this.stockClient = stockClient;
         this.paymentClient = paymentClient;
         this.deliveryClient = deliveryClient;
@@ -42,7 +40,6 @@ public class OrderController {
         this.stockServiceUrl = stockServiceUrl;
         this.paymentServiceUrl = paymentServiceUrl;
         this.deliveryServiceUrl = deliveryServiceUrl;
-        this.bookServiceUrl = bookServiceUrl;
     }
 
     @GetMapping("/")
@@ -64,33 +61,6 @@ public class OrderController {
         model.addAttribute("elapsedMs", elapsedMs);
 
         return "index";
-    }
-
-    @GetMapping("/books")
-    public String books(Model model) {
-        long start = System.nanoTime();
-        
-        List<BookResponse> books = Flux.fromIterable(fetchBooks())
-                .collectList()
-                .block();
-
-        long elapsedMs = (System.nanoTime() - start) / 1_000_000;
-
-        model.addAttribute("books", Objects.requireNonNullElse(books, List.of()));
-        model.addAttribute("elapsedMs", elapsedMs);
-        return "index";
-    }
-
-      private List<BookResponse> fetchBooks() {
-        List<BookResponse> books = webClient
-            .get()
-            .uri(combineUrl(bookServiceUrl, "/books"))
-            .retrieve()
-            .bodyToMono(new ParameterizedTypeReference<List<BookResponse>>() {})
-            .onErrorReturn(List.of())
-            .block();
-
-        return Objects.requireNonNullElse(books, List.of());
     }
 
 
@@ -130,5 +100,4 @@ public String flux(Model model) {
 
     private record StepRequest(String baseUrl, String path) {}
 
-    private record BookResponse(int id, String name, String author, int price) {}
 }
